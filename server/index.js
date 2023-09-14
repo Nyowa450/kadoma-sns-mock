@@ -16,6 +16,10 @@ import { register } from './controllers/auth.js';
 import { createPost } from './controllers/posts.js';
 import { verifyToken } from './middleware/auth.js';
 
+import User from './models/User.js';
+import Post from './models/Post.js';
+import { users, posts } from './data/index.js';
+
 // Base Configurations
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,8 +39,9 @@ app.use(morgan('common'));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
-
 // '/assets'にアクセスしたらpublic/assetsで静的ファイルを返す
+app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+
 /* File Storage Settings */
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -68,5 +73,8 @@ mongoose
   })
   .then(() => {
     app.listen(PORT, () => console.log(`Server port: ${PORT}`));
+    //Mongoに最初の一回だけ入れる
+    /* User.insertMany(users);
+    Post.insertMany(posts); */
   })
   .catch((error) => console.log(`${error} did not connect`));
