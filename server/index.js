@@ -74,7 +74,7 @@ mongoose
   .then(() => {
     app.listen(PORT, () => console.log(`Server port: ${PORT}`));
     //Mongoに最初の一回だけ入れる
-    /* User.insertMany(users);
-    Post.insertMany(posts); */
+    // User.insertMany(users);
+    // Post.insertMany(posts);
   })
   .catch((error) => console.log(`${error} did not connect`));
